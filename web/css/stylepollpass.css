@@ -1,0 +1,16 @@
+#bg {
+    position: fixed;
+    top: 0;
+    z-index:-1;
+}
+
+.wrapper-content {
+    text-align: right;
+    padding-right: 32vw;
+}
+
+.content-page {
+    display: inline-block;
+    text-align: center;
+    width: 780px;
+}
