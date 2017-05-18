@@ -85,6 +85,43 @@ public class PollDAOImpl implements PollDAO {
     }
 
     @Override
+    public
+    Poll getPollByTitle (String title) throws DAOException {
+
+        Poll poll = null;
+
+        ConnectionFactory connectionFactory = ConnectionFactory.getInstance();
+        Connection connection = connectionFactory.getConnectionPool().retrieve();
+
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        TopicDAO topicDAO = daoFactory.getTopicDAO();
+        QuestionDAO questionDAO = daoFactory.getQuestionDAO();
+
+        String sql = SQLCommand.GET_POLL_BY_TITLE;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1,title);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    poll = new Poll();
+                    poll.setId(rs.getInt("id_polls"));
+                    poll.setTitlePoll(rs.getString("title_polls"));
+                    poll.setDescription(rs.getString("description"));
+                    Topic topic = topicDAO.getTopic(rs.getInt("id_topics"));
+                    poll.setTopic(topic);
+                    List<Question> questions = questionDAO.getQuestionsFromPoll(poll.getId());
+                    poll.setQuestions(questions);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException("error get answer", e);
+        } finally {
+            connectionFactory.getConnectionPool().putback(connection);
+        }
+
+        return poll;
+    }
+
+    @Override
     public void changePoll(Integer oldIdPoll, Integer newIdPoll, String newTitlePoll, String newDescription, Integer newIdTopic) throws DAOException {
 
 

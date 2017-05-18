@@ -6,6 +6,7 @@ public final class SQLCommand {
     //------------------ANSWER----------------------
     public final static String ADD_ANSWER = "insert into answers (`reply`) value (?)";
     public final static String GET_ANSWER = "SELECT `id_answers`,`reply` FROM opinion_poll.answers where `id_answers`=?";
+    public final static String GET_ANSWER_BY_REPLY = "SELECT `id_answers`,`reply` FROM opinion_poll.answers where `reply`=?";
     public final static String CHANGE_ANSWER = "UPDATE `opinion_poll`.`answers` SET `id_answers`=?, `reply`=? WHERE `id_answers`=?";
     public final static String DELETE_ANSWER = "{call opinion_poll.delete_user(?)}";
 
@@ -15,6 +16,7 @@ public final class SQLCommand {
     //------------------POLL----------------------
     public final static String ADD_POLL = "INSERT INTO `opinion_poll`.`polls` (`title_polls`, `description`, `id_topics`) VALUES (?, ?, ?)";
     public final static String GET_POLL = "SELECT `id_polls`, `title_polls`, `description`, `id_topics` FROM opinion_poll.polls where `id_polls` = ?";
+    public final static String GET_POLL_BY_TITLE = "SELECT `id_polls`, `title_polls`, `description`, `id_topics` FROM opinion_poll.polls where `title_polls` = ?";
     public final static String CHANGE_POLL = "UPDATE `opinion_poll`.`polls` SET `id_polls`=?, `title_polls`=?, `description`=?, `id_topics`=? WHERE `id_polls`=?";
     public final static String DELETE_POLL = "{call opinion_poll.delete_poll(?)}";
 
@@ -31,6 +33,7 @@ public final class SQLCommand {
     //------------------QUESTION----------------------
     public final static String ADD_QUESTION = "INSERT INTO `opinion_poll`.`questions` (`id_topics`, `title_questions`) VALUES (?, ?)";
     public final static String GET_QUESTION = "SELECT `id_questions`, `id_topics`, `title_questions` FROM opinion_poll.questions where `id_questions`=?";
+    public final static String GET_QUESTION_BY_TITLE = "SELECT `id_questions`, `id_topics`, `title_questions` FROM opinion_poll.questions where `title_questions`=?";
     public final static String CHANGE_QUESTION = "UPDATE `opinion_poll`.`questions` SET `id_questions`=?, `id_topics`=?, `title_questions`=? WHERE `id_questions`=?";
     public final static String DELETE_QUESTION = "{call opinion_poll.delete_question(?)}";
 

@@ -68,6 +68,28 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
+    public Poll getPollByTitle(String title) throws ServiceException, ServiseIllegalArgumentException {
+
+        if (!ValidateDate.checkText(title)) {
+            throw new ServiseIllegalArgumentException("Illegal id of poll");
+        }
+
+
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        PollDAO pollDAO = daoFactory.getPollDAO();
+
+        Poll poll = null;
+
+        try {
+            poll = pollDAO.getPollByTitle(title);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
+        return poll;
+    }
+
+    @Override
     public void changePoll(String oldIdPoll, String newIdPoll, String newTitlePoll, String newDescription, String newIdTopic) throws ServiceException , ServiseIllegalArgumentException {
 
         if (!ValidateDate.checkPositiveNumber(oldIdPoll) || !ValidateDate.checkPositiveNumber(newIdPoll) || !ValidateDate.checkText(newTitlePoll) || !ValidateDate.checkText(newDescription) || !ValidateDate.checkPositiveNumber(newIdTopic)) {

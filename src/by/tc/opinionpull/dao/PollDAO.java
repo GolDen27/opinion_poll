@@ -12,6 +12,7 @@ public interface PollDAO {
 
     void addPoll (String titlePoll, String description, Integer idTopic) throws DAOException, DAODuplicateException;
     Poll getPoll (Integer id) throws DAOException;
+    Poll getPollByTitle (String title) throws DAOException;
     void changePoll (Integer oldId, Integer newId, String newTitlePoll, String newDescription, Integer newIdTopic) throws DAOException;
     void deletePoll (Integer id) throws DAOException;
 

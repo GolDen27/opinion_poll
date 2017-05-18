@@ -12,6 +12,7 @@ public interface AnswerService {
 
 	void addAnswer (String reply) throws ServiceException, ServiceDuplicateException, ServiseIllegalArgumentException;
 	Answer getAnswer (String id) throws ServiceException, ServiseIllegalArgumentException ;
+	Answer getAnswerByReply (String reply) throws  ServiceException, ServiseIllegalArgumentException ;
 	void changeAnswer (String oldId, String newId, String newReply) throws ServiceException, ServiseIllegalArgumentException ;
 	void deleteAnswer (String id) throws ServiceException, ServiseIllegalArgumentException ;
 

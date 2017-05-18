@@ -11,6 +11,7 @@ public interface QuestionService {
 
 	void addQuestion (String idTopic, String title) throws ServiceException, ServiceDuplicateException, ServiseIllegalArgumentException;
 	Question getQuestion (String id) throws ServiceException, ServiseIllegalArgumentException ;
+	Question getQuestionByTitle (String title) throws ServiceException, ServiseIllegalArgumentException ;
 	void changeQuestion (String id, String newId, String newIdTopic, String newTitle) throws ServiceException, ServiseIllegalArgumentException ;
 	void deleteQuestion (String id) throws ServiceException, ServiseIllegalArgumentException ;
 

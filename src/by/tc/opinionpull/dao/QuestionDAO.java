@@ -10,6 +10,7 @@ public interface QuestionDAO {
 
 	void addQuestion (Integer idTopic, String title) throws DAOException, DAODuplicateException;
 	Question getQuestion (Integer id) throws DAOException;
+	Question getQuestionByTitle (String title) throws DAOException;
 	void changeQuestion (Integer oldId, Integer newId, Integer newIdTopic, String newTitle) throws DAOException;
 	void deleteQuestion (Integer id) throws DAOException;
 

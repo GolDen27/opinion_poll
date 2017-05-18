@@ -70,6 +70,35 @@ public class AnswerDAOImpl implements AnswerDAO {
 	}
 
 	@Override
+	public Answer getAnswerByReply(String reply) throws DAOException {
+		Answer answer = null;
+
+
+
+		ConnectionFactory connectionFactory = ConnectionFactory.getInstance();
+		Connection connection = connectionFactory.getConnectionPool().retrieve();
+
+		String sql = SQLCommand.GET_ANSWER_BY_REPLY;
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1,reply);
+			try (ResultSet rs = statement.executeQuery()) {
+				if(rs.next()) {
+					answer = new Answer();
+					answer.setId(rs.getInt("id_answers"));
+					answer.setReply(rs.getString("reply"));
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException("error get answer", e);
+		} finally {
+			connectionFactory.getConnectionPool().putback(connection);
+		}
+
+
+		return answer;
+	}
+
+	@Override
 	public void changeAnswer(Integer oldId, Integer newId, String newReply) throws DAOException {
 
 		ConnectionFactory connectionFactory = ConnectionFactory.getInstance();

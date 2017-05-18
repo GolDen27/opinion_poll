@@ -12,6 +12,7 @@ public interface PollService {
 
     void addPoll (String titlePoll, String description, String idTopic) throws ServiceException, ServiseIllegalArgumentException ;
     Poll getPoll (String id) throws ServiceException, ServiseIllegalArgumentException ;
+    Poll getPollByTitle (String title) throws ServiceException, ServiseIllegalArgumentException ;
     void changePoll (String oldId, String newId, String newTitlePoll, String newDescription, String newIdTopic) throws ServiceException, ServiseIllegalArgumentException ;
     void deletePoll (String id) throws ServiceException, ServiseIllegalArgumentException ;
 

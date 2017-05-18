@@ -66,6 +66,28 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
+	public Answer getAnswerByReply(String reply) throws ServiceException, ServiseIllegalArgumentException {
+
+		if (!ValidateDate.checkText(reply)) {
+			throw new ServiseIllegalArgumentException("Illegal reply of answer");
+		}
+
+
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		AnswerDAO answerDAO = daoFactory.getAnswerDAO();
+
+		Answer answer = null;
+
+		try {
+			answer = answerDAO.getAnswerByReply(reply);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+
+		return answer;
+	}
+
+	@Override
 	public void changeAnswer(String oldId, String newId, String newReply) throws ServiceException, ServiseIllegalArgumentException {
 
 		if (!ValidateDate.checkPositiveNumber(oldId) || !ValidateDate.checkPositiveNumber(newId) || !ValidateDate.checkText(newReply)) {

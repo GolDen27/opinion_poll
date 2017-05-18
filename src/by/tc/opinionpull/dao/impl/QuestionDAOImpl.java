@@ -82,6 +82,44 @@ public class QuestionDAOImpl implements QuestionDAO {
 
 	}
 
+
+
+	@Override
+	public Question getQuestionByTitle (String title) throws DAOException {
+
+		Question question = null;
+
+		ConnectionFactory connectionFactory = ConnectionFactory.getInstance();
+		Connection connection = connectionFactory.getConnectionPool().retrieve();
+
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		TopicDAO topicDAO = daoFactory.getTopicDAO();
+		AnswerDAO answerDAO = daoFactory.getAnswerDAO();
+
+		String sql = SQLCommand.GET_QUESTION_BY_TITLE;
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1,title);
+			try (ResultSet rs = statement.executeQuery()) {
+				if (rs.next()) {
+					question = new Question();
+					question.setId(rs.getInt("id_questions"));
+					question.setTitle(rs.getString("title_questions"));
+					Topic topic = topicDAO.getTopic(rs.getInt("id_topics"));
+					question.setTopic(topic);
+					List<Answer> answers = answerDAO.getAnswersFromQuestion(question.getId());
+					question.setAnswers(answers);
+				}
+
+			}
+		} catch (SQLException e) {
+			throw new DAOException("error get answer", e);
+		} finally {
+			connectionFactory.getConnectionPool().putback(connection);
+		}
+
+		return question;
+	}
+
 	@Override
 	public void changeQuestion(Integer oldIdQuestion, Integer newIdQuestion, Integer newIdTopic, String newTitle) throws DAOException {
 

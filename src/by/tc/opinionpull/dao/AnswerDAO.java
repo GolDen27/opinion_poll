@@ -11,6 +11,7 @@ public interface AnswerDAO {
 
 	void addAnswer (String reply) throws DAOException, DAODuplicateException;
 	Answer getAnswer (Integer idAnswer) throws DAOException;
+	Answer getAnswerByReply (String reply) throws DAOException;
 	void changeAnswer (Integer oldIdAnswer, Integer newIdAnswer, String newReply) throws DAOException;
 	void deleteAnswer (Integer idAnswer) throws DAOException;
 

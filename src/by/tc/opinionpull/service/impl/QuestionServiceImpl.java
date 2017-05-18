@@ -67,6 +67,29 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
+	public Question getQuestionByTitle(String title) throws ServiceException, ServiseIllegalArgumentException {
+
+
+		if (!ValidateDate.checkText(title)) {
+			throw new ServiseIllegalArgumentException("Illegal id of question");
+		}
+
+
+		DAOFactory daoFactory = DAOFactory.getInstance();
+		QuestionDAO questionDAO = daoFactory.getQuestionDAO();
+
+		Question question = null;
+
+		try {
+			question = questionDAO.getQuestionByTitle(title);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+
+		return question;
+	}
+
+	@Override
 	public void changeQuestion(String oldIdQuestion, String newIdQuestion, String newIdTopic, String newTitle) throws ServiceException , ServiseIllegalArgumentException {
 
 		if (!ValidateDate.checkPositiveNumber(oldIdQuestion) || !ValidateDate.checkPositiveNumber(newIdQuestion) || !ValidateDate.checkPositiveNumber(newIdTopic) || !ValidateDate.checkText(newTitle)) {
