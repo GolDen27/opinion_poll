@@ -6,3 +6,11 @@ questionlink.onclick = function(){
     }
 };
 
+questionaddlink.onclick = function(){
+    if(questionaddcontainer.style.display=="none") {
+        questionaddcontainer.style.display = "block";
+    } else {
+        questionaddcontainer.style.display = "none";
+    }
+};
+

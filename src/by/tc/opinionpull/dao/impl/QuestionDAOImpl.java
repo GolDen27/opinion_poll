@@ -176,7 +176,7 @@ public class QuestionDAOImpl implements QuestionDAO {
 		String sql = SQLCommand.ADD_ANSWER_TO_QUESTION;
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.setInt(1,idQuestion);
-			statement.setInt(1,idAnswer);
+			statement.setInt(2,idAnswer);
 			statement.executeUpdate();
 		} catch (MySQLIntegrityConstraintViolationException e){
 			throw new DAODuplicateException("duplicate answer at question", e);

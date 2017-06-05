@@ -73,6 +73,18 @@
                                     </form>
                                     <a href="/Controller?command=delete_answer&id=${answeritem.id}">удалить ответ</a>
                                 </c:forEach>
+                                <br>
+                                <a id="answeraddclick${questionitem.id}" href="#">Добавить ответ</a>
+                                <br>
+                                <div id="answeraddcont${questionitem.id}">
+                                    <form action="/Controller" method="post">
+                                        <input type="hidden" name="command" value="add_answer">
+                                        <input type="hidden" name="questionid" value="${questionitem.id}">
+                                        <label>Название<input type="text" name="reply"></label>
+                                        <input type="submit" value="Сохранить">
+                                    </form>
+                                </div>
+
                             </div>
 
                             <script>
@@ -82,12 +94,35 @@
                                     } else {
                                         answercontainer${questionitem.id}.style.display = "none";
                                     }
-                                }
+                                };
+                            </script>
+
+                            <script>
+                                answeraddclick${questionitem.id}.onclick = function () {
+                                    if(answeraddcont${questionitem.id}.style.display=="none") {
+                                        answeraddcont${questionitem.id}.style.display = "block";
+                                    } else {
+                                        answeraddcont${questionitem.id}.style.display = "none";
+                                    }
+                                };
                             </script>
 
                         </div>
 
                     </c:forEach>
+
+                    <br>
+                    <a id="questionaddlink" href="#">Добавить вопрос</a>
+                    <br>
+                    <div  id="questionaddcontainer" style="display: none">
+                        <form action="/Controller" method="post">
+                            <input type="hidden" name="command" value="add_question">
+                            <input type="hidden" name="pollid" value="${pagepoll.id}">
+                            <label>Название<input type="text" name="title"></label>
+                            <label>Тема<input type="text" name="topic"></label>
+                            <input type="submit" value="Сохранить">
+                        </form>
+                    </div>
                 </div>
             <br>
             <a href="/Controller?command=delete_poll&id=${pagepoll.id}">удалить опрос</a>

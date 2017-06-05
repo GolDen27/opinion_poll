@@ -1,21 +1,18 @@
 
 var elements = document.querySelectorAll(".wrapper-content>.content-page>div");
 
-elements.onmouseover = function () {
-    alert("aaa");
-}
 
 function func () {
     for(i = 0; i < elements.length; i++)
     {
         elements[i].style.display = "none";
     }
-}
+};
 
 function changeLayer(cont) {
     func();
     cont.style.display = "block";
-}
+};
 
 menuhomepage.onclick = function(){
     func();
@@ -53,21 +50,11 @@ menuopinionpoll.onclick = function(){
 
 };
 
-menuopfamily.onclick = function(){
-
+menuaddpoll.onclick = function() {
+    func();
+    addpollcontainer.style.display = "block";
 };
 
-menuopfriends.onclick = function(){
-
-};
-
-menuoppolitics.onclick = function(){
-
-};
-
-menuopother.onclick = function(){
-
-};
 
 menupeople.onclick = function(){
     func();
@@ -96,10 +83,10 @@ menusupport.onclick = function(){
 menudocaboutdesign.onclick = function() {
     func();
     docaboutdesign.style.display = "block";
-}
+};
 
 menudocaboutpoll.onclick = function() {
     func();
     docaboutpoll.style.display = "block";
-}
+};
 

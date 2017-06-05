@@ -4,7 +4,7 @@ public final class SQLCommand {
     private  SQLCommand() {}
 
     //------------------ANSWER----------------------
-    public final static String ADD_ANSWER = "insert into answers (`reply`) value (?)";
+    public final static String ADD_ANSWER = "insert into `opinion_poll`.`answers` (`reply`) values (?)";
     public final static String GET_ANSWER = "SELECT `id_answers`,`reply` FROM opinion_poll.answers where `id_answers`=?";
     public final static String GET_ANSWER_BY_REPLY = "SELECT `id_answers`,`reply` FROM opinion_poll.answers where `reply`=?";
     public final static String CHANGE_ANSWER = "UPDATE `opinion_poll`.`answers` SET `id_answers`=?, `reply`=? WHERE `id_answers`=?";

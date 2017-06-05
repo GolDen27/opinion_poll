@@ -52,7 +52,7 @@
         <h4><p class="username" ><c:out value="${user.surname}"/> <c:out value="${user.name}"/></p></h4>
         <h5 class="buttons"><a class="username" href="javascript:$('#menuprofile').click();">Profile</a></h5>
         <h5 class="buttons"><a class="username" href="javascript:$('#menuactivity').click();">Activity</a></h5>
-        <h5 class="buttons"><a class="username" href="#">Become an administrator</a></h5>
+        <h5 class="buttons"><a class="username" href="/BecomeAdmin">Become an administrator</a></h5>
         <h5 class="buttons b"><a class="username" href="#">Donate</a></h5>
         <div class="Social">
             <a  href="javascript:$('#menusettings').click();">
@@ -85,17 +85,16 @@
                 <ul>
                     <li><a id="menuprofile" href="#">Profile</a></li>
                     <li><a id="menuactivity" href="#">Activity</a></li>
-                    <li><a id="menubecomeanadmin" href="#">Become an administrator</a></li>
+                    <li><a id="menubecomeanadmin" href="/BecomeAdmin">Become an administrator</a></li>
                     <li><a id="menudonate" href="#">Donate</a></li>
                     <li><a id="menusettings" href="#">Settings</a></li>
                 </ul>
             </li>
             <li><a id="menuopinionpoll" href="#">Opinion poll</a>
                 <ul>
-                    <li><a id="menuopfamily" href="#">Family</a></li>
-                    <li><a id="menuopfriends" href="#">Friends</a></li>
-                    <li><a id="menuoppolitics" href="#">Politics</a></li>
-                    <li><a id="menuopother" href="#">Other</a></li>
+                    <c:if test="${sessionScope.user.typeOfUser}">
+                        <li><a id="menuaddpoll" href="#">Add poll</a></li>
+                    </c:if>
                 </ul>
             </li>
             <li><a id="menupeople" href="#">People</a></li>
@@ -239,6 +238,18 @@
                     </form>
                 </div>
             </c:forEach>
+            <div class="pagination">
+                <ul>
+                    <li class="prev <c:if test = "${requestScope.page == 1}">disabled</c:if>"><a href="/Controller?command=load_content&page=${requestScope.page-1}">&lt;</a></li>
+
+                    <c:forEach var="i" begin="1" end="${requestScope.pageCount}">
+                        <li <c:if test = "${requestScope.page == i}">class="active"</c:if> ><a href="/Controller?command=load_content&page=${i}">${i}</a></li>
+                    </c:forEach>
+
+
+                    <li class="next <c:if test = "${requestScope.page == requestScope.pageCount}">disabled</c:if>"> "><a href="/Controller?command=load_content&page=${requestScope.page+1}">&gt;</a></li>
+                </ul>
+            </div>
         </div>
         <div id="peoplecontainer" style="display: none;">
             <c:forEach items="${requestScope.users}" var="usermap">
@@ -327,6 +338,15 @@
         <div id="docaboutpoll" style="display: none;">
             <iframe src="https://docs.google.com/document/d/1jeGrpMmQeDY9l3r7RPRovfhFS-y9OO0EdVihIlMgTec/pub?embedded=true" width="100%" height="900px"></iframe>
         </div>
+        <div id="addpollcontainer" style="display: none;">
+            <form action="/Controller" method="post">
+                <input type="hidden" name="command" value="add_poll">
+                <label>Название<input type="text" name="title"></label>
+                <label>Описание<input type="text" name="description"></label>
+                <label>Тема<input type="text" name="topic"></label>
+                <input type="submit" value="Создать опрос">
+            </form>
+        </div>
     </div>
 </div>
 
@@ -337,9 +357,11 @@
 <hr>
 
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 <script src="/js/background.js"></script>
 <script src="/js/switchlang.js"></script>
 <script src="/js/profile.js"></script>
 <script src="/js/menu.js"></script>
+<script src="/js/pagination.js"></script>
 </body>
 </html>

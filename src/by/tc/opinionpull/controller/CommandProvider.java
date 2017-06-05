@@ -23,12 +23,19 @@ final class CommandProvider {
         repository.put(CommandName.PASS_POLL, new PassPoll());
         repository.put(CommandName.COMPLETE_POLL, new CompletePoll());
         repository.put(CommandName.USER_SETTINGS, new UserSettings());
+
         repository.put(CommandName.EDIT, new Edit());
         repository.put(CommandName.DELETE_POLL, new DeletePoll());
-        repository.put(CommandName.EDIT_ANSWER, new EditAnswer());
         repository.put(CommandName.EDIT_POLL, new EditPoll());
+        repository.put(CommandName.ADD_POLL, new AddPoll());
+
+        repository.put(CommandName.DELETE_ANSWER, new DeleteAnswer());
+        repository.put(CommandName.EDIT_ANSWER, new EditAnswer());
+        repository.put(CommandName.ADD_ANSWER, new AddAnswer());
+
+        repository.put(CommandName.DELETE_POLL, new DeletePoll());
         repository.put(CommandName.EDIT_QUESTION, new EditQuestion());
-        //...
+        repository.put(CommandName.ADD_QUESTION, new AddQuestion());
     }
 
     Command getCommand(String name){

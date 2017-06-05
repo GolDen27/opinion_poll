@@ -40,6 +40,10 @@
         <servlet-name>EditPoll</servlet-name>
         <jsp-file>/WEB-INF/jsp/editpoll/edit.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>BecomeAdmin</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/becomeadmin.jsp</jsp-file>
+    </servlet>
 
 
 
@@ -75,6 +79,10 @@
     <servlet-mapping>
         <servlet-name>EditPoll</servlet-name>
         <url-pattern>/Editpoll</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BecomeAdmin</servlet-name>
+        <url-pattern>/BecomeAdmin</url-pattern>
     </servlet-mapping>
     
     <filter>

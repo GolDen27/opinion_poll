@@ -55,7 +55,12 @@ public class LoadContent implements Command {
 				int pageCount = pollService.getPageCount();
 				request.setAttribute(PAGE_COUNT, pageCount);
 
-				List<Poll> polls = pollService.getPolls("1");
+				String page = request.getParameter("page");
+				if (page==null) {
+					page = "1";
+					request.setAttribute("page", page);
+				}
+				List<Poll> polls = pollService.getPolls(page);
 				request.setAttribute(POLLS, polls);
 
 				Map<User, Integer> users = userService.getUsersByActivity(USER_COUNT);

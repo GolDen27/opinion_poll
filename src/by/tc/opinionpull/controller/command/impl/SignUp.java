@@ -42,13 +42,13 @@ public class SignUp implements Command {
             LOGGER.error(e);
 
         } catch (ServiceDuplicateException e) {
-
             session.setAttribute("isduplicateregister", true);
             response.sendRedirect(JspPath.JSP_MAIN_PATH);
             LOGGER.warn(e);
 
         } catch (ServiseIllegalArgumentException e) {
             //TODO
+            response.sendRedirect(JspPath.JSP_ERR_PATH);
             LOGGER.error(e);
         }
 

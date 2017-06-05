@@ -1,0 +1,19 @@
+
+/*---------------------фон------------------------*/
+#bg {
+    position: fixed;
+    top: 0;
+    z-index:-1;
+}
+/*-------------------------фон----------------------*/
+
+
+.wrapper-content {
+    text-align: center;
+}
+
+.content-page {
+    display: inline-block;
+    text-align: center;
+    width: 780px;
+}
