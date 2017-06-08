@@ -252,11 +252,11 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
-    public List<Poll> getPolls(String pageNumber) throws ServiceException, ServiseIllegalArgumentException {
+    public List<Poll> getPolls(String pageNumber, String login) throws ServiceException, ServiseIllegalArgumentException {
 
 
-        if (!ValidateDate.checkNumber(pageNumber)) {
-            throw new ServiseIllegalArgumentException("Illegal number of page");
+        if (!ValidateDate.checkNumber(pageNumber) || !ValidateDate.checkLogin(login)) {
+            throw new ServiseIllegalArgumentException("Illegal data for get polls to page");
         }
 
         Integer maxPageValue = getPageCount();
@@ -273,7 +273,7 @@ public class PollServiceImpl implements PollService {
                 DAOFactory daoFactory = DAOFactory.getInstance();
                 PollDAO pollDAO = daoFactory.getPollDAO();
 
-                polls = pollDAO.getPollsToPage(pageNumberInt);
+                polls = pollDAO.getPollsToPage(pageNumberInt, login);
             } catch (DAOException e) {
                 throw new ServiceException(e);
             }

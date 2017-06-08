@@ -5,7 +5,6 @@ import by.tc.opinionpull.bean.User;
 import by.tc.opinionpull.controller.JspPath;
 import by.tc.opinionpull.controller.command.Command;
 import by.tc.opinionpull.service.PollService;
-import by.tc.opinionpull.service.TestService;
 import by.tc.opinionpull.service.UserService;
 import by.tc.opinionpull.service.exception.ServiceException;
 import by.tc.opinionpull.service.exception.ServiseIllegalArgumentException;
@@ -49,7 +48,6 @@ public class LoadContent implements Command {
 			ServiceFactory serviceFactory = ServiceFactory.getInstance();
 			PollService pollService = serviceFactory.getPollService();
 			UserService userService = serviceFactory.getUserService();
-			TestService testService = serviceFactory.getTestService();
 
 			try {
 				int pageCount = pollService.getPageCount();
@@ -58,9 +56,10 @@ public class LoadContent implements Command {
 				String page = request.getParameter("page");
 				if (page==null) {
 					page = "1";
-					request.setAttribute("page", page);
 				}
-				List<Poll> polls = pollService.getPolls(page);
+				request.setAttribute("page", page);
+
+				List<Poll> polls = pollService.getPolls(page, user.getLogin());
 				request.setAttribute(POLLS, polls);
 
 				Map<User, Integer> users = userService.getUsersByActivity(USER_COUNT);

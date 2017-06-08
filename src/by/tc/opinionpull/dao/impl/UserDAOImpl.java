@@ -69,6 +69,10 @@ public class UserDAOImpl implements UserDAO {
                 user.setTypeOfUser(rs.getBoolean("type_of_user"));
                 user.setPhotoPath(rs.getString("photo_path"));
                 user.setAge(rs.getInt("age"));
+                user.setGender(rs.getByte("gender"));
+                user.setCountry(rs.getString("country"));
+                user.setPhone(rs.getString("phone"));
+                user.setSiteLink(rs.getString("site_link"));
             }
         } catch (SQLException e) {
             throw new DAOException("error get user", e);
@@ -81,7 +85,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void changeUser(String oldLogin, String newLogin, String newPassword, String newSurname, String newName, Boolean newTypeOfUser, String newPhotoPath, Integer newAge) throws DAOException {
+    public void changeUser(String oldLogin, String newLogin, String newSurname, String newName, Boolean newTypeOfUser, String newPhotoPath, Integer newAge, Byte newGender, String newCountry, String newPhone, String newSiteLink) throws DAOException {
 
         ConnectionFactory connectionFactory = ConnectionFactory.getInstance();
         Connection connection = connectionFactory.getConnectionPool().retrieve();
@@ -90,16 +94,19 @@ public class UserDAOImpl implements UserDAO {
 
         try (PreparedStatement statement = connection.prepareStatement(sql)){
             statement.setString(1,newLogin);
-            statement.setString(2,newPassword);
-            statement.setString(3,newSurname);
-            statement.setString(4,newName);
-            statement.setBoolean(5,newTypeOfUser);
-            statement.setString(6,newPhotoPath);
-            statement.setInt(7,newAge);
-            statement.setString(8,oldLogin);
+            statement.setString(2,newSurname);
+            statement.setString(3,newName);
+            statement.setBoolean(4,newTypeOfUser);
+            statement.setString(5,newPhotoPath);
+            statement.setInt(6,newAge);
+            statement.setString(7,newGender.toString());
+            statement.setString(8,newCountry);
+            statement.setString(9,newPhone);
+            statement.setString(10,newSiteLink);
+            statement.setString(11,oldLogin);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException("error update user");
+            throw new DAOException("error update user", e);
         } finally {
             connectionFactory.getConnectionPool().putback(connection);
         }
@@ -148,6 +155,10 @@ public class UserDAOImpl implements UserDAO {
                     user.setTypeOfUser(rs.getBoolean("type_of_user"));
                     user.setPhotoPath(rs.getString("photo_path"));
                     user.setAge(rs.getInt("age"));
+                    user.setGender(rs.getByte("gender"));
+                    user.setCountry(rs.getString("country"));
+                    user.setPhone(rs.getString("phone"));
+                    user.setSiteLink(rs.getString("site_link"));
                     map.put(user, rs.getInt("position"));
                 }
             }

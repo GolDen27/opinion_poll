@@ -31,9 +31,11 @@ public class Edit implements Command{
 			session.setAttribute("poll", poll);
 			response.sendRedirect(JspPath.JSP_PATH_EDIT_POLL);
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			LOGGER.error(e);
+			//TODO
 		} catch (ServiseIllegalArgumentException e) {
-			e.printStackTrace();
+			LOGGER.error(e);
+			//TODO
 		}
 
 

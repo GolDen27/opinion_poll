@@ -11,7 +11,7 @@ public interface UserDAO {
 
     void addUser (String login, String password, String surname, String name, Boolean typeOfUser, String photoPath, Integer age) throws DAOException, DAODuplicateException;
     User getUser(String login) throws DAOException;
-    void changeUser (String oldLogin, String newLogin, String newPassword, String newSurname, String newName, Boolean newTypeOfUser, String newPhotoPath, Integer newAge) throws DAOException;
+    void changeUser (String oldLogin, String newLogin,  String newSurname, String newName, Boolean newTypeOfUser, String newPhotoPath, Integer newAge, Byte newGender, String newCountry, String newPhone, String newSiteLink) throws DAOException;
     void deleteUser (String login) throws DAOException;
 
     Map<User, Integer> getUsersByActivity (Integer count) throws DAOException ;

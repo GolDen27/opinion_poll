@@ -2,6 +2,7 @@ package by.tc.opinionpull.controller.command.impl;
 
 import by.tc.opinionpull.bean.Question;
 import by.tc.opinionpull.bean.Topic;
+import by.tc.opinionpull.controller.JspPath;
 import by.tc.opinionpull.controller.command.Command;
 import by.tc.opinionpull.service.QuestionService;
 import by.tc.opinionpull.service.TopicService;
@@ -37,6 +38,7 @@ public class EditQuestion implements Command {
 			}
 			Question question = questionService.getQuestion(id);
 			questionService.changeQuestion(question.getId().toString(), question.getId().toString(),searchTopic.getId().toString(),title);
+			response.sendRedirect(JspPath.JSP_PATH_EDIT_POLL);
 		} catch (ServiceException e) {
 			LOGGER.error(e);
 			//TODO

@@ -71,21 +71,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeUser(String oldLoginUser, String newLoginUser, String newPassword, String newSurname, String newName, String newTypeOfUser, String newPhotoPath, String newAge) throws ServiceException, ServiseIllegalArgumentException  {
+    public void changeUser(String oldLoginUser, String newLoginUser,  String newSurname, String newName, String newTypeOfUser, String newPhotoPath, String newAge, String newGender, String newCountry, String newPhone, String newSiteLink) throws ServiceException, ServiseIllegalArgumentException  {
 
-        if (!ValidateDate.checkLogin(oldLoginUser) || !ValidateDate.checkLogin(newLoginUser) || !ValidateDate.checkPassword(newPassword) || !ValidateDate.checkWordWithBigLetter(newSurname) ||
-                !ValidateDate.checkWordWithBigLetter(newName) || !ValidateDate.checkBooleanNumber(newTypeOfUser) /*TODO || Validate newPhotoPath*/ || !ValidateDate.checkPositiveNumber(newAge)) {
+        if (!ValidateDate.checkLogin(oldLoginUser) || !ValidateDate.checkLogin(newLoginUser) || !ValidateDate.checkWordWithBigLetter(newSurname) ||
+                !ValidateDate.checkWordWithBigLetter(newName) || !ValidateDate.checkBooleanNumber(newTypeOfUser) /*TODO || Validate newPhotoPath*/ || !ValidateDate.checkPositiveNumber(newAge)
+                /*TODO!ValidateDate.checkBooleanNumber(newGender)|| !ValidateDate.checkWord(newCountry) || Validate newPhone || Validate newSiteLink*/) {
             throw new ServiseIllegalArgumentException("Illegal data for change user");
         }
 
         Boolean checkedNewTypeOfUser = newTypeOfUser.equals("1")? true:false;
         Integer checkedNewAge = Integer.parseInt(newAge);
+        Byte checkedNewGender = Byte.parseByte(newGender);
 
         DAOFactory daoFactory = DAOFactory.getInstance();
         UserDAO userDAO = daoFactory.getUserDAO();
 
         try {
-            userDAO.changeUser(oldLoginUser, newLoginUser, newPassword, newSurname, newName, checkedNewTypeOfUser, newPhotoPath, checkedNewAge);
+            userDAO.changeUser(oldLoginUser, newLoginUser, newSurname, newName, checkedNewTypeOfUser, newPhotoPath, checkedNewAge, checkedNewGender, newCountry, newPhone, newSiteLink);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -110,6 +112,24 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public boolean checkBecomeAdmin(String login) throws ServiceException, ServiseIllegalArgumentException {
+        if (!ValidateDate.checkLogin(login)) {
+            throw new ServiseIllegalArgumentException("Illegal login user");
+        }
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        UserDAO userDAO = daoFactory.getUserDAO();
+        try {
+            User user = userDAO.getUser(login);
+            //TODO
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return false;
+    }
+
+
 
     @Override
     public Map<User, Integer> getUsersByActivity(String count) throws ServiseIllegalArgumentException, ServiceException {

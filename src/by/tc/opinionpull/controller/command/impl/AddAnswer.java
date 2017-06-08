@@ -1,6 +1,7 @@
 package by.tc.opinionpull.controller.command.impl;
 
 import by.tc.opinionpull.bean.Answer;
+import by.tc.opinionpull.controller.JspPath;
 import by.tc.opinionpull.controller.command.Command;
 import by.tc.opinionpull.service.AnswerService;
 import by.tc.opinionpull.service.QuestionService;
@@ -33,6 +34,7 @@ public class AddAnswer implements Command {
 			answerService.addAnswer(reply);
 			Answer answer = answerService.getAnswerByReply(reply);
 			questionService.addAnswer(idQuestion, answer.getId().toString());
+			response.sendRedirect(JspPath.JSP_PATH_EDIT_POLL);
 		} catch (ServiceException e) {
 			LOGGER.error(e);
 			//TODO

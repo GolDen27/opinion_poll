@@ -9,6 +9,42 @@ public class User {
     Boolean typeOfUser;
     String photoPath;
     Integer age;
+    Byte gender;
+    String country;
+    String phone;
+    String siteLink;
+
+    public Byte getGender() {
+        return gender;
+    }
+
+    public void setGender(Byte gender) {
+        this.gender = gender;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getSiteLink() {
+        return siteLink;
+    }
+
+    public void setSiteLink(String siteLink) {
+        this.siteLink = siteLink;
+    }
 
     public User() {
     }
@@ -142,29 +178,72 @@ public class User {
             return false;
         }
 
+        if (getGender()==null) {
+            if (that.getGender() != null) {
+                return false;
+            }
+        } else if (!getGender().equals(that.getGender())) {
+            return false;
+        }
+
+        if (getCountry()==null) {
+            if (that.getCountry() != null) {
+                return false;
+            }
+        } else if (!getCountry().equals(that.getCountry())) {
+            return false;
+        }
+
+        if (getPhone()==null) {
+            if (that.getPhone() != null) {
+                return false;
+            }
+        } else if (!getPhone().equals(that.getPhone())) {
+            return false;
+        }
+
+        if (getSiteLink()==null) {
+            if (that.getSiteLink() != null) {
+                return false;
+            }
+        } else if (!getSiteLink().equals(that.getSiteLink())) {
+            return false;
+        }
+
         return true;
     }
 
 
     @Override
     public int hashCode() {
-        int result = getLogin() != null ? getLogin().hashCode() : 0;
-        result = 31 * result + (getSurname() != null ? getSurname().hashCode() : 0);
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getTypeOfUser() != null ? getTypeOfUser().hashCode() : 0);
-        result = 31 * result + (getPhotoPath() != null ? getPhotoPath().hashCode() : 0);
+        int result = getLogin().hashCode();
+        result = 31 * result + getPassword().hashCode();
+        result = 31 * result + getSurname().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getTypeOfUser().hashCode();
+        result = 31 * result + getPhotoPath().hashCode();
+        result = 31 * result + getAge().hashCode();
+        result = 31 * result + getGender().hashCode();
+        result = 31 * result + getCountry().hashCode();
+        result = 31 * result + getPhone().hashCode();
+        result = 31 * result + getSiteLink().hashCode();
         return result;
     }
-
 
     @Override
     public String toString() {
         return "User{" +
                 "login='" + login + '\'' +
+                ", password='" + password + '\'' +
                 ", surname='" + surname + '\'' +
                 ", name='" + name + '\'' +
                 ", typeOfUser=" + typeOfUser +
                 ", photoPath='" + photoPath + '\'' +
+                ", age=" + age +
+                ", gender=" + gender +
+                ", country='" + country + '\'' +
+                ", phone='" + phone + '\'' +
+                ", siteLink='" + siteLink + '\'' +
                 '}';
     }
 }

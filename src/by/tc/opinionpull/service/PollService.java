@@ -24,5 +24,5 @@ public interface PollService {
     List<Poll> getPollsByUser (String loginUser) throws ServiceException , ServiseIllegalArgumentException ;
 
     int getPageCount () throws ServiceException, ServiseIllegalArgumentException ;
-    List<Poll> getPolls (String pageNumber) throws ServiceException, ServiseIllegalArgumentException;
+    List<Poll> getPolls (String pageNumber, String login) throws ServiceException, ServiseIllegalArgumentException;
 }

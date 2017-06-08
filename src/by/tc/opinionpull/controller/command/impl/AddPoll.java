@@ -1,6 +1,8 @@
 package by.tc.opinionpull.controller.command.impl;
 
+import by.tc.opinionpull.bean.Poll;
 import by.tc.opinionpull.bean.Topic;
+import by.tc.opinionpull.controller.JspPath;
 import by.tc.opinionpull.controller.command.Command;
 import by.tc.opinionpull.service.PollService;
 import by.tc.opinionpull.service.TopicService;
@@ -14,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class AddPoll implements Command {
@@ -24,6 +27,8 @@ public class AddPoll implements Command {
 		String titlePoll = request.getParameter("title");
 		String description = request.getParameter("description");
 		String topic = request.getParameter("topic");
+
+		HttpSession session = request.getSession();
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		PollService pollService = serviceFactory.getPollService();
@@ -36,6 +41,10 @@ public class AddPoll implements Command {
 				topicSearch = topicService.searchTopic(topic);
 			}
 			pollService.addPoll(titlePoll, description, topicSearch.getId().toString());
+			Poll poll = pollService.getPollByTitle(titlePoll);
+			session.setAttribute("poll", poll);
+			response.sendRedirect(JspPath.JSP_PATH_EDIT_POLL);
+
 		} catch (ServiceException e) {
 			LOGGER.error(e);
 			//TODO

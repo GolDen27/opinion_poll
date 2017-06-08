@@ -1,5 +1,6 @@
 package by.tc.opinionpull.controller.command.impl;
 
+import by.tc.opinionpull.controller.JspPath;
 import by.tc.opinionpull.controller.command.Command;
 import by.tc.opinionpull.service.PollService;
 import by.tc.opinionpull.service.exception.ServiceException;
@@ -23,6 +24,7 @@ public class DeletePoll implements Command {
 		PollService pollService = serviceFactory.getPollService();
 		try {
 			pollService.deletePoll(id);
+			response.sendRedirect(JspPath.JSP_MAIN_PATH);
 		} catch (ServiceException e) {
 			LOGGER.error(e);
 			//TODO

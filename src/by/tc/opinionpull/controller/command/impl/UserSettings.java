@@ -27,6 +27,10 @@ public class UserSettings implements Command {
 	private final static String NAME = "lastname";
 	private final static String AGE = "year";
 	private final static String PASSWORD = "password";
+	private final static String GENDER = "gender";
+	private final static String COUNTRY = "country";
+	private final static String PHONE = "phone";
+	private final static String SITELINK = "site-link";
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -41,11 +45,14 @@ public class UserSettings implements Command {
 		String surname = request.getParameter(SURNAME);
 		String name = request.getParameter(NAME);
 		String age = request.getParameter(AGE);
-		String password = request.getParameter(PASSWORD);
+		String gender = request.getParameter(GENDER);
+		String country = request.getParameter(COUNTRY);
+		String phone = request.getParameter(PHONE);
+		String siteLink = request.getParameter(SITELINK);
 
 		try {
 			String typeOfUser = user.getTypeOfUser()?"1":"0";
-			userService.changeUser(user.getLogin(),login,password,surname,name,typeOfUser,user.getPhotoPath(),age);
+			userService.changeUser(user.getLogin(),login,surname,name,typeOfUser,user.getPhotoPath(),age, gender, country, phone, siteLink);
 			User newUser = userService.getUser(login);
 			session.setAttribute(USER,newUser);
 			response.sendRedirect(JspPath.JSP_MAIN_PATH);

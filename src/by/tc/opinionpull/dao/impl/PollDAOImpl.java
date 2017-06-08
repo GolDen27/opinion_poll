@@ -345,7 +345,7 @@ public class PollDAOImpl implements PollDAO {
         return count;
     }
 
-    public List<Poll> getPollsToPage(int pageNumber) throws DAOException {
+    public List<Poll> getPollsToPage(int pageNumber, String login) throws DAOException {
         List<Poll> polls = new ArrayList<Poll>();
         Poll poll;
 
@@ -358,8 +358,9 @@ public class PollDAOImpl implements PollDAO {
         String sql = SQLCommand.GET_POLLS_TO_PAGE;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1,(pageNumber-1)*RECORD_ON_PAGES);
-            statement.setInt(2,RECORD_ON_PAGES);
+            statement.setString(1, login);
+            statement.setInt(2,(pageNumber-1)*RECORD_ON_PAGES);
+            statement.setInt(3,RECORD_ON_PAGES);
             try (ResultSet rs = statement.executeQuery()) {
                 while(rs.next()) {
                     poll = new Poll();

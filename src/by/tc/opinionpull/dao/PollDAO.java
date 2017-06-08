@@ -24,5 +24,5 @@ public interface PollDAO {
     List<Poll> getPollsByUser (String loginUser) throws DAOException ;
 
     int getPageCount () throws DAOException;
-    List<Poll> getPollsToPage(int pageNumber) throws DAOException;
+    List<Poll> getPollsToPage(int pageNumber, String login) throws DAOException;
 }

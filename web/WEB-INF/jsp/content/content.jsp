@@ -52,8 +52,9 @@
         <h4><p class="username" ><c:out value="${user.surname}"/> <c:out value="${user.name}"/></p></h4>
         <h5 class="buttons"><a class="username" href="javascript:$('#menuprofile').click();">Profile</a></h5>
         <h5 class="buttons"><a class="username" href="javascript:$('#menuactivity').click();">Activity</a></h5>
-        <h5 class="buttons"><a class="username" href="/BecomeAdmin">Become an administrator</a></h5>
-        <h5 class="buttons b"><a class="username" href="#">Donate</a></h5>
+        <c:if test="${!sessionScope.user.typeOfUser}">
+            <h5 class="buttons"><a class="username" href="/BecomeAdmin">Become an administrator</a></h5>
+        </c:if>
         <div class="Social">
             <a  href="javascript:$('#menusettings').click();">
                 <svg viewBox="0 0 478.703 478.703" width="512px" height="512px" id="logo">
@@ -85,25 +86,31 @@
                 <ul>
                     <li><a id="menuprofile" href="#">Profile</a></li>
                     <li><a id="menuactivity" href="#">Activity</a></li>
-                    <li><a id="menubecomeanadmin" href="/BecomeAdmin">Become an administrator</a></li>
-                    <li><a id="menudonate" href="#">Donate</a></li>
+                    <c:if test="${!sessionScope.user.typeOfUser}">
+                        <li><a id="menubecomeanadmin" href="/BecomeAdmin">Become an administrator</a></li>
+                    </c:if>
                     <li><a id="menusettings" href="#">Settings</a></li>
                 </ul>
             </li>
             <li><a id="menuopinionpoll" href="#">Opinion poll</a>
-                <ul>
-                    <c:if test="${sessionScope.user.typeOfUser}">
-                        <li><a id="menuaddpoll" href="#">Add poll</a></li>
-                    </c:if>
-                </ul>
+                <c:if test="${sessionScope.user.typeOfUser}">
+                    <ul>
+                        <li>
+                            <a id="menuaddpoll" href="#">Add poll</a>
+                        </li>
+                    </ul>
+                </c:if>
             </li>
             <li><a id="menupeople" href="#">People</a></li>
-            <li><a id="menustatistic" href="#">Statistic</a>
-                <ul>
-                    <li><a id="menustatopinionpoll" href="#">Opinion poll</a></li>
-                    <li><a id="menustatpeople" href="#">People</a></li>
-                </ul>
-            </li>
+
+            <c:if test="${sessionScope.user.typeOfUser}">
+                <li><a id="menustatistic" href="#">Statistic</a>
+                    <ul>
+                        <li><a id="menustatopinionpoll" href="#">Opinion poll</a></li>
+                        <li><a id="menustatpeople" href="#">People</a></li>
+                    </ul>
+                </li>
+            </c:if>
             <li><a id="menusupport" href="#">Support</a></li>
             <li><a href="/Controller?command=logout">Exit</a></li>
         </ul>
@@ -234,7 +241,7 @@
                     <form action="/Controller" method="get">
                         <input type="hidden" name="command" value="pass_poll">
                         <input type="hidden" name="id_poll" value="${item.id}">
-                        <input type="submit" id="buttonpoll" value="POLL"></button>
+                        <input type="submit" class="buttonpoll" value="POLL"></button>
                     </form>
                 </div>
             </c:forEach>
@@ -247,7 +254,9 @@
                     </c:forEach>
 
 
-                    <li class="next <c:if test = "${requestScope.page == requestScope.pageCount}">disabled</c:if>"> "><a href="/Controller?command=load_content&page=${requestScope.page+1}">&gt;</a></li>
+                    <li class="next <c:if test = "${requestScope.page == requestScope.pageCount}">disabled</c:if>">
+                        <a href="/Controller?command=load_content&page=${requestScope.page+1}">&gt;</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -263,73 +272,213 @@
 
             </c:forEach>
         </div>
-        <div id="statisticcontainer" style="display: none;">
-            <c:forEach items="${requestScope.poppoll}" var="poppollmap">
-                <p>Название опроса: ${poppollmap.key.titlePoll}</p>
-                <p>Описание опроса: ${poppollmap.key.description}</p>
-                <p>Количество прохождений: ${poppollmap.value}</p>
+        <c:if test="${sessionScope.user.typeOfUser}">
+            <div id="statpoll" style="display: none;">
                 <br>
-            </c:forEach>
-            <c:forEach items="${requestScope.polluser}" var="pollusermap">
-                <p>${pollusermap.key.surname} ${pollusermap.key.name}</p>
-                <c:forEach items="${pollusermap.value}" var="polllist">
-                    <p>${polllist.titlePoll}</p>
-                </c:forEach>
-            </c:forEach>
-        </div>
-        <div id="statpoll" style="display: none;">
-            <c:forEach items="${requestScope.poppoll}" var="poppollmap">
-                <p>Название опроса: ${poppollmap.key.titlePoll}</p>
-                <p>Описание опроса: ${poppollmap.key.description}</p>
-                <p>Количество прохождений: ${poppollmap.value}</p>
+                <table class="table-fill">
+                    <thead>
+                    <tr>
+                        <th class="text-left">Название опроса</th>
+                        <th class="text-left">Прохождений</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover">
+                    <c:forEach items="${requestScope.poppoll}" var="poppollmap">
+                        <tr>
+                            <td class="text-left">${poppollmap.key.titlePoll}</td>
+                            <td class="text-left">${poppollmap.value}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+
+
+            </div>
+            <div id="statuser" style="display: none;">
                 <br>
-            </c:forEach>
+                <table class="table-fill">
+                    <thead>
+                    <tr>
+                        <th class="text-left">Пользователь</th>
+                        <th class="text-left">Пройденные опросы</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-hover">
+                    <c:forEach items="${requestScope.polluser}" var="pollusermap">
+                        <tr>
+                            <td class="text-left">${pollusermap.key.surname} ${pollusermap.key.name}</td>
+                            <td class="text-left">
+                                <c:forEach items="${pollusermap.value}" var="polllist">
+                                    <p>${polllist.titlePoll}</p>
+                                </c:forEach>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </c:if>
+        <div id="supportcontainer" style="display: none;">
+            <div class="profileinfo">
+                <div class="profileinforow">
+                    Ваши претензии, предложения и замечания отправляете на почтовый адрес qwerty@mail.ru
+                </div>
+            </div>
         </div>
-        <div id="statuser" style="display: none;">
-            <c:forEach items="${requestScope.polluser}" var="pollusermap">
-                <p>${pollusermap.key.surname} ${pollusermap.key.name}</p>
-                <c:forEach items="${pollusermap.value}" var="polllist">
-                    <p>${polllist.titlePoll}</p>
-                </c:forEach>
-            </c:forEach>
-        </div>
-        <div id="supportcontainer" style="display: none;"></div>
         <div id="usersettingscontainer" style="display: none;">
             <form action="/Controller" method="post">
+
                 <input type="hidden" name="command" value="user_settings"/>
-                <label>Почта <input id="firstemail" type="email" name="email" required autocomplete="off"
-                              pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$" title="name@example.com" value="${sessionScope.user.login}"/></label>
-                <br>
-                <label>Фамилия <input type="text" name="lastname" required autocomplete="off" pattern="^[A-ZА-Я][a-zа-я]{1,}$"
-                              title="Фамилия с большой буквы" value="${sessionScope.user.surname}"/></label>
-                <br>
-                <label>Имя <input type="text" name="firstname" required autocomplete="off" pattern="^[A-ZА-Я][a-zа-я]{1,}$"
-                              title="Имя с большой буквы" value="${sessionScope.user.name}"/></label>
-                <br>
-                <label>Возраст <input type="number" name="year" required autocomplete="off" min="7" max="120" title="7 – 120 лет" value="${sessionScope.user.age}"/></label>
-                <br>
-                <label>Пароль <input type="password" name="password" autocomplete="off"
-                       pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$"
-                              title="не менее 6 символов, не менее одной буквы в каждом регистре и не менее одной цифры" placeholder="Не изменялся"/></label>
-                <br>
+
+                <div class="profileinfo">
+                    <div class="profileinforow">
+                        <label>
+                            <div class="profilerowcaption">Почта</div>
+                            <div class="profilerowtext">
+                                <input id="firstemail" type="email" name="email" required autocomplete="off"
+                                                               pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$" title="name@example.com" value="${sessionScope.user.login}"/>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="profileinforow">
+                        <label>
+                            <div class="profilerowcaption">Фамилия</div>
+                            <div class="profilerowtext">
+                                <input type="text" name="lastname" required autocomplete="off" pattern="^[A-ZА-Я][a-zа-я]{1,}$"
+                                                               title="Фамилия с большой буквы" value="${sessionScope.user.surname}"/>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="profileinforow">
+                        <label>
+                            <div class="profilerowcaption">Имя</div>
+                            <div class="profilerowtext">
+                                <input type="text" name="firstname" required autocomplete="off" pattern="^[A-ZА-Я][a-zа-я]{1,}$"
+                                                               title="Имя с большой буквы" value="${sessionScope.user.name}"/>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="profileinforow">
+                        <label>
+                            <div class="profilerowcaption">Возраст</div>
+                            <div class="profilerowtext">
+                                <input type="number" name="year" required autocomplete="off" min="7" max="120" title="7 – 120 лет" value="${sessionScope.user.age}"/>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="profileinforow">
+                        <label>
+                            <div class="profilerowcaption">Пол</div>
+                            <div class="profilerowtext">
+                                <select name="gender">
+                                    <option value="-1" <c:if test="${sessionScope.user.gender==-1}">selected</c:if>>Не установлен</option>
+                                    <option value="0" <c:if test="${sessionScope.user.gender==0}">selected</c:if>>Женщина</option>
+                                    <option value="1" <c:if test="${sessionScope.user.gender==1}">selected</c:if>>Мужчина</option>
+                                </select>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="profileinforow">
+                        <label>
+                            <div class="profilerowcaption">Страна</div>
+                            <div class="profilerowtext"><input type="text" name="country" value="${sessionScope.user.country}"></div>
+                        </label>
+                    </div>
+                    <div class="profileinforow">
+                        <label>
+                            <div class="profilerowcaption">Телефон</div>
+                            <div class="profilerowtext"><input type="text" name="phone" value="${sessionScope.user.phone}"></div>
+                        </label>
+                    </div>
+                    <div class="profileinforow">
+                        <label>
+                            <div class="profilerowcaption">Ссылка на личный сайт</div>
+                            <div class="profilerowtext"><input type="text" name="site-link" value="${sessionScope.user.siteLink}"></div>
+                        </label>
+                    </div>
+                </div>
+
+                <input type="submit">
+            </form>
+
+
+
+            <form action="FileUpload" method="post" enctype="multipart/form-data">
+                <input type="file" name="data">
+                <input type="hidden" name="user" value="${sessionScope.user.login}">
                 <input type="submit">
             </form>
         </div>
         <div id="profilecont" style="display: none;">
-            <p>Почта ${sessionScope.user.login}</p>
-            <p>Имя ${sessionScope.user.name}</p>
-            <p>Фамилия ${sessionScope.user.surname}</p>
-            <p>Возраст ${sessionScope.user.age}</p>
-            <a href="javascript:$('#menusettings').click();">изменить</a>
+            <div class="profileinfo">
+                <div class="profileinforow">
+                    <div class="profilerowcaption">Почта</div>
+                    <div class="profilerowtext">${sessionScope.user.login}</div>
+                </div>
+                <div class="profileinforow">
+                    <div class="profilerowcaption">Имя</div>
+                    <div class="profilerowtext">${sessionScope.user.name}</div>
+                </div>
+                <div class="profileinforow">
+                    <div class="profilerowcaption">Фамилия</div>
+                    <div class="profilerowtext">${sessionScope.user.surname}</div>
+                </div>
+                <div class="profileinforow">
+                    <div class="profilerowcaption">Возраст</div>
+                    <div class="profilerowtext">${sessionScope.user.age}</div>
+                </div>
+                <div class="profileinforow">
+                    <div class="profilerowcaption">Пол</div>
+                    <div class="profilerowtext">
+                        <c:choose>
+                            <c:when test="${sessionScope.user.gender==0}">
+                                Женский
+                            </c:when>
+                            <c:when test="${sessionScope.user.gender==1}">
+                                Мужской
+                            </c:when>
+                            <c:otherwise>
+                                Не установлен
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
+                <div class="profileinforow">
+                    <div class="profilerowcaption">Страна</div>
+                    <div class="profilerowtext">${sessionScope.user.country}</div>
+                </div>
+                <div class="profileinforow">
+                    <div class="profilerowcaption">Телефон</div>
+                    <div class="profilerowtext">${sessionScope.user.phone}</div>
+                </div>
+                <div class="profileinforow">
+                    <div class="profilerowcaption">Ссылка на личную страницу</div>
+                    <div class="profilerowtext">${sessionScope.user.siteLink}</div>
+                </div>
+            </div>
+            <button class="buttonpoll">
+                <a href="javascript:$('#menusettings').click();">изменить</a>
+            </button>
         </div>
         <div id="useractivity" style="display: none;">
+            <div>Пройденные опросы</div>
             <c:forEach items="${requestScope.userpolls}" var="pollfromuser">
-                <ul>
-                    <li>
-                        <p>${pollfromuser.titlePoll}</p>
-                        <p>${pollfromuser.description}</p>
-                    </li>
-                </ul>
+                <div class="bl">
+
+                    <c:if test="${sessionScope.user.typeOfUser}">
+                        <div style="position: absolute;">
+                            <a href="/Controller?command=Edit&id_poll=${item.id}">
+                                <svg  x="0px" y="0px" viewBox="0 0 300 300" width="30px" height="30px">
+                                    <path d="M149.996,0C67.157,0,0.001,67.161,0.001,149.997S67.157,300,149.996,300s150.003-67.163,150.003-150.003    S232.835,0,149.996,0z M221.302,107.945l-14.247,14.247l-29.001-28.999l-11.002,11.002l29.001,29.001l-71.132,71.126    l-28.999-28.996L84.92,186.328l28.999,28.999l-7.088,7.088l-0.135-0.135c-0.786,1.294-2.064,2.238-3.582,2.575l-27.043,6.03    c-0.405,0.091-0.817,0.135-1.224,0.135c-1.476,0-2.91-0.581-3.973-1.647c-1.364-1.359-1.932-3.322-1.512-5.203l6.027-27.035    c0.34-1.517,1.286-2.798,2.578-3.582l-0.137-0.137L192.3,78.941c1.678-1.675,4.404-1.675,6.082,0.005l22.922,22.917    C222.982,103.541,222.982,106.267,221.302,107.945z" fill="#4e9153" fill-opacity="0.5"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </c:if>
+
+                    <div class="b1-title">${pollfromuser.titlePoll}</div>
+                    <hr>
+                    <div class="b1-desc">${pollfromuser.description}</div>
+                </div>
             </c:forEach>
         </div>
         <div id="docaboutdesign" style="display: none;">
@@ -341,10 +490,28 @@
         <div id="addpollcontainer" style="display: none;">
             <form action="/Controller" method="post">
                 <input type="hidden" name="command" value="add_poll">
-                <label>Название<input type="text" name="title"></label>
-                <label>Описание<input type="text" name="description"></label>
-                <label>Тема<input type="text" name="topic"></label>
-                <input type="submit" value="Создать опрос">
+                <div class="profileinfo">
+                    <label>
+                        <div class="profileinforow">
+                            <div class="profilerowcaption">Название</div>
+                            <div class="profilerowtext"><input type="text" name="title"></div>
+                        </div>
+                    </label>
+                    <label>
+                        <div class="profileinforow">
+                            <div class="profilerowcaption">Описание</div>
+                            <div class="profilerowtext"><input type="text" name="description"></div>
+                        </div>
+                    </label>
+                    <label>
+                        <div class="profileinforow">
+                            <div class="profilerowcaption">Тема</div>
+                            <div class="profilerowtext"><input type="text" name="topic"></div>
+                        </div>
+                    </label>
+                </div>
+
+                <input class="buttonpoll" type="submit" value="Создать">
             </form>
         </div>
     </div>
@@ -361,7 +528,8 @@
 <script src="/js/background.js"></script>
 <script src="/js/switchlang.js"></script>
 <script src="/js/profile.js"></script>
-<script src="/js/menu.js"></script>
+<script src="/js/menuuser.js"></script>
+<script src="/js/menuadmin.js"></script>
 <script src="/js/pagination.js"></script>
 </body>
 </html>

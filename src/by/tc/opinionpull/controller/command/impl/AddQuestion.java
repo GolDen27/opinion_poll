@@ -3,6 +3,7 @@ package by.tc.opinionpull.controller.command.impl;
 import by.tc.opinionpull.bean.Poll;
 import by.tc.opinionpull.bean.Question;
 import by.tc.opinionpull.bean.Topic;
+import by.tc.opinionpull.controller.JspPath;
 import by.tc.opinionpull.controller.command.Command;
 import by.tc.opinionpull.service.PollService;
 import by.tc.opinionpull.service.QuestionService;
@@ -45,6 +46,7 @@ public class AddQuestion implements Command {
 			Question question = questionService.getQuestionByTitle(title);
 			Poll poll = pollService.getPoll(idpoll);
 			pollService.addQuestion(poll.getId().toString(), question.getId().toString());
+			response.sendRedirect(JspPath.JSP_PATH_EDIT_POLL);
 		} catch (ServiceException e) {
 			LOGGER.error(e);
 			//TODO

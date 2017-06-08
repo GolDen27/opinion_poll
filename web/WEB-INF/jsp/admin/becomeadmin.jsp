@@ -32,7 +32,16 @@
 
         <div id="becomeadmincontainer">
             <img src="img/admin_post.gif" width="40%">
-            <p>Для того чтобы стать администратором необходимо</p>
+            <p>Администатор имеет право создавать опросы, изменять опросы, удалять опросы, просматривать самые популярные опросы и активных ползователей.</p>
+            <br>
+            <p>Для того чтобы стать администратором необходимо:</p>
+            <ul>
+                <li>Пройти 5 опросов</li>
+                <li>Заполнить профиль</li>
+                <li>Добавить фотографию</li>
+            </ul>
+            <a id="checkparam" href="#" class="button12" tabindex="0">Проверить</a>
+            <span id="result"></span>
         </div>
     </div>
 </div>
@@ -44,6 +53,7 @@
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 <script src="/js/background.js"></script>
+<script src="/js/becomeadminscript.js"></script>
 
 </body>
 </html>

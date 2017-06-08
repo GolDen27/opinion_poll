@@ -28,7 +28,7 @@ public final class SQLCommand {
     public final static String GET_POLLS_BY_USER = "SELECT `polls`.`id_polls`, `polls`.`title_polls`, `polls`.`description`, `polls`.`id_topics`, `login_users` FROM `opinion_poll`.`tests` join `polls` on `polls`.`id_polls`=`tests`.`pq_id_polls`  where `login_users`=? group by `pq_id_polls`, `login_users`;";
 
     public final static String GET_COUNT_OF_PAGE_OF_POLL = "SELECT ceiling(count(*)/?) from polls";
-    public final static String GET_POLLS_TO_PAGE = "SELECT `id_polls`, `title_polls`, `description` from `polls` order by `id_polls` desc limit ?,?";
+    public final static String GET_POLLS_TO_PAGE = "SELECT `id_polls`, `title_polls`, `description` from `polls` where `id_polls` not in (select `pq_id_polls` from `tests` where `login_users`=?) order by `id_polls` desc limit ?,?";
 
     //------------------QUESTION----------------------
     public final static String ADD_QUESTION = "INSERT INTO `opinion_poll`.`questions` (`id_topics`, `title_questions`) VALUES (?, ?)";
@@ -60,11 +60,11 @@ public final class SQLCommand {
 
     //------------------USER----------------------
     public final static String ADD_USER = "INSERT into users (`login`,`password`,`surname`,`name`,`type_of_user`, `photo_path`, `age`) value (?,setPassword(?),?,?,?,?,?)";
-    public final static String GET_USER = "SELECT `login`, `password`, `surname`, `name`, `type_of_user`, `photo_path`, `age` from opinion_poll.users where `login`=?";
-    public final static String CHANGE_USER = "UPDATE `opinion_poll`.`users` SET `login`=?, `password`=setPassword(?), `surname`=?, `name`=?, `type_of_user`=?, `photo_path`=?, `age`=? WHERE `login`=?";
+    public final static String GET_USER = "SELECT `login`, `password`, `surname`, `name`, `type_of_user`, `photo_path`, `age`, `gender`, `country`, `phone`, `site_link` from opinion_poll.users where `login`=?";
+    public final static String CHANGE_USER = "UPDATE `opinion_poll`.`users` SET `login`=?, `surname`=?, `name`=?, `type_of_user`=?, `photo_path`=?, `age`=?, `gender`=?, `country`=?, `phone`=?, `site_link`=? WHERE `login`=?";
     public final static String DELETE_USER = "call opinion_poll.delete_user(?);";
 
-    public final static String GET_USER_BY_ACTIVITY = "SELECT `users`.`login`, `users`.`password`, `users`.`surname`, `users`.`name`, `users`.`type_of_user`, `users`.`photo_path`, `users`.`age`, count(`login_users`) as `position` FROM (select * from `opinion_poll`.`tests` group by `pq_id_polls`, `login_users`) as `a` join `users` on `users`.`login`=`a`.`login_users` group by (`login_users`) order by (`position`) desc limit ?";
+    public final static String GET_USER_BY_ACTIVITY = "SELECT `users`.`login`, `users`.`password`, `users`.`surname`, `users`.`name`, `users`.`type_of_user`, `users`.`photo_path`, `users`.`age`, `users`.`gender`, `users`.`country`, `users`.`phone`, `users`.`site_link` ,  count(`login_users`) as `position` FROM (select * from `opinion_poll`.`tests` group by `pq_id_polls`, `login_users`) as `a` join `users` on `users`.`login`=`a`.`login_users` group by (`login_users`) order by (`position`) desc limit ?";
 
     public final static String CHECK_USER = "SELECT ifnull(setPassword(?) like (select password from users where login=?),0)";
 }

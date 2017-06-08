@@ -81,6 +81,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
                 throw new DAOException("Connection not in the used");
             }
         }
+
     }
 
     @Override

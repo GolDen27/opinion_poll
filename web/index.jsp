@@ -201,11 +201,6 @@
 </div>
 
 
-<form action="FileUpload" method="post" enctype="multipart/form-data">
-    <input type="file" name="data">
-    <input type="submit">
-</form>
-
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js'></script>
 <script src="js/index.js"></script>

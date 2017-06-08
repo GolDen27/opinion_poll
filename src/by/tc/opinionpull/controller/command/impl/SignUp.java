@@ -33,7 +33,7 @@ public class SignUp implements Command {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         UserService userService = serviceFactory.getUserService();
         try {
-            userService.addUser(email, password, firstName, lastName, "0", "", year);
+            userService.addUser(email, password, firstName, lastName, "0", "/images/noavatar.png", year);
             request.getRequestDispatcher(JspPath.JSP_REGISTER_PATH).forward(request,response);
         }
         catch (ServiceException e) {
@@ -47,9 +47,9 @@ public class SignUp implements Command {
             LOGGER.warn(e);
 
         } catch (ServiseIllegalArgumentException e) {
-            //TODO
             response.sendRedirect(JspPath.JSP_ERR_PATH);
             LOGGER.error(e);
+            //TODO
         }
 
 

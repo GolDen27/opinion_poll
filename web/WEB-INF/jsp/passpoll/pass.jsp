@@ -31,27 +31,38 @@
 
 <div class="wrapper-content">
     <div class="content-page">
-        <div class="content">
-            Title poll:${requestScope.poll.titlePoll}
-            <br>
-            Description:${requestScope.poll.description}
-            <br>
-            Topic:${requestScope.poll.topic.title}
-            <br>
+        <div class="poll-edit">
+            <div class="top-data">
+                Название:${requestScope.poll.titlePoll}
+                <br>
+                Описание:${requestScope.poll.description}
+                <br>
+                Тема:${requestScope.poll.topic.title}
+            </div>
+
             <form action="/Controller" method="get">
                 <input type="hidden" name="command" value="complete_poll"/>
                 <input type="hidden" name="poll" value="${requestScope.poll.id}">
-                <c:forEach items="${requestScope.poll.questions}" var="question">
-                    Question:${question.title}
-                    <br>
-                    Topic:${question.topic.title}
-                    <br>
-                    Answers:
-                    <c:forEach items="${question.answers}" var="answer">
-                        <label><input type="radio" name="${question.id}" value="${answer.id}" checked>${answer.reply}</label>
+                <div id="questioncontainer">
+                    <c:forEach items="${requestScope.poll.questions}" var="question">
+                        <div class="question">
+                            <div>
+                                Вопрос:${question.title}
+                                <br>
+                                Тема:${question.topic.title}
+                            </div>
+                            <div class="answerdiv">
+                                Ответы:
+                                <br>
+                                <c:forEach items="${question.answers}" var="answer">
+                                    <label><input type="radio" name="${question.id}" value="${answer.id}"
+                                                  checked>${answer.reply}</label>
+                                    <br>
+                                </c:forEach>
+                            </div>
+                        </div>
                     </c:forEach>
-                    <br>
-                </c:forEach>
+                </div>
                 <input type="submit">
             </form>
         </div>

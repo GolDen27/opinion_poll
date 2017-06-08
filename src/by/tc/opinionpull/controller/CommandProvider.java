@@ -36,6 +36,8 @@ final class CommandProvider {
         repository.put(CommandName.DELETE_POLL, new DeletePoll());
         repository.put(CommandName.EDIT_QUESTION, new EditQuestion());
         repository.put(CommandName.ADD_QUESTION, new AddQuestion());
+
+        repository.put(CommandName.CHECK_ADMIN_USER, new CheckBecomeAdmin());
     }
 
     Command getCommand(String name){
